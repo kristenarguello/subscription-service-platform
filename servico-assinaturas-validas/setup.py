@@ -25,20 +25,17 @@ def get_optional_requirements() -> dict[str, list[str]]:
 requirements = read_multiline_as_list("requirements.txt")
 opt_requirements = get_optional_requirements()
 
-with open("README.md", "r") as readme_file:
-    long_description = readme_file.read()
-
 setuptools.setup(
-    name="athena",
-    version="2.0.0",
-    author="Teialabs",
-    author_email="contato@teialabs.com",
-    description="Teia Athena bot API.",
-    long_description=long_description,
+    name="assinaturas",
+    version="0.0.1",
+    author="Us",
+    author_email="contato@.com",
+    description="API.",
+    long_description="",
     long_description_content_type="text/markdown",
-    url="https://github.com/TeiaLabs/athena",
+    url="https://github.com/",
     packages=setuptools.find_packages(),
-    keywords="athena, chatbot, api, gpt3",
+    keywords="",
     python_requires=">=3.12",
     install_requires=requirements,
     extras_require=opt_requirements,
