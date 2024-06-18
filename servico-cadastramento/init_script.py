@@ -10,7 +10,8 @@ db = client["cadastro_geral"]
 
 # pelo menos 10 clientes
 collection = db["clientes"]
-index_name = collection.create_index([("email", pymongo.ASCENDING)], unique=True)
+collection.create_index([("email", pymongo.ASCENDING)], unique=True)
+collection.create_index([("codigo", pymongo.ASCENDING)], unique=True)
 clientes = []
 people_names = [
     "James",
@@ -36,6 +37,7 @@ for i in range(10):
 
 # 5 aplicativos diferentes
 collection = db["aplicativos"]
+collection.create_index([("codigo", pymongo.ASCENDING)], unique=True)
 aplicativos = []
 app_names = ["QuickQuest", "FitFleet", "MindMerge", "ChoreChampion", "TravelTrove"]
 for i in range(5):
@@ -50,6 +52,7 @@ for i in range(5):
 
 # pelo menos 5 assinaturas diferentes
 collection = db["assinaturas"]
+collection.create_index([("codigo", pymongo.ASCENDING)], unique=True)
 assinaturas = []
 for i in range(5):
     assinaturas.append(
