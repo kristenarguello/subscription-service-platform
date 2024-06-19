@@ -17,9 +17,9 @@ class Assinatura(BaseModel):
 
 
 class GetAssinaturas(BaseModel):
-    codigo_assinatura: int
-    codigo_cliente: int
-    codigo_aplicativo: int
+    cod_assinatura: int
+    cod_cliente: int
+    cod_aplicativo: int
     data_inicio: datetime
     data_fim: datetime
     status: Literal["ATIVA", "CANCELADA"]
