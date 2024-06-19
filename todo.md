@@ -1,22 +1,26 @@
 # TODO
 - [ ] microsservicos
     - [ ] servico cadastramento
-        - [ ] script inicialização
-        - [ ] GET /servcad/clientes
-        - [ ] GET /servcad/aplicativos
-        - [ ] POST /servcad/assinaturas
-        - [ ] PATCH /servcad/aplicativos/:idAplicativo
-        - [ ] GET /servcad/assinaturas/{tipo}
-        - [ ] GET /servcad/asscli/:codcli
-        - [ ] GET /servcad/assapp/:codapp
+        - [ x ] script inicialização
+        - [ x ] GET /servcad/clientes
+        - [ x ] GET /servcad/aplicativos
+        - [ x ] POST /servcad/assinaturas
+        - [ x ] PATCH /servcad/aplicativos/:idAplicativo
+        - [ x ] GET /servcad/assinaturas/{tipo}
+        - [ x ] GET /servcad/asscli/:codcli
+        - [ x ] GET /servcad/assapp/:codapp
         - [ ] evento: PagamentoServicoCadastramento
+            - [ ] event handler
     - [ ] servico pagamentos
         - [ ] POST /registrarpagamento
         - [ ] evento: PagamentoServicoCadastramento
+            - [ ] event handler
         - [ ] evento: PagsmentoServicoAssinaturaValida
+            - [ ] event handler
     - [ ] servico assinaturas validas
         - [ ] GET /assinvalidas/:codass
         - [ ] evento: PagamentoServicoAssinaturaValida
+            - [ ] event handler
 
 - [ ] entrega
     - [ ] diagrama entidade-relacionamento banco de dados
