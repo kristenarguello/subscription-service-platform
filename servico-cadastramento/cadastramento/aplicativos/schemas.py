@@ -7,6 +7,10 @@ from pydantic import BaseModel
 class GetAplicativos(BaseModel):
     codigo: int
     nome: str
+    custo_mensal: float
+
+
+class UpdateApp(BaseModel):
     custo: float
 
 

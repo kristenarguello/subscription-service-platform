@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 from . import controllers as controller
 from ..assinaturas.schemas import GetAssinaturas
+from .schemas import UpdateApp
 
 
 router = APIRouter(prefix="/aplicativos", tags=["aplicativos"])
@@ -14,8 +15,8 @@ def get_aplicativos():
 
 @router.patch("/aplicativos/{aplicativo_id}", status_code=200)
 @router.patch("/aplicativos/{aplicativo_id}/", status_code=200, include_in_schema=False)
-def update_aplicativo(aplicativo_id: int):
-    return controller.update_aplicativo(aplicativo_id)
+def update_aplicativo(aplicativo_id: int, body: UpdateApp):
+    return controller.update_aplicativo(aplicativo_id, body)
 
 
 @router.get("/assapp/{cod_aplicativo}", status_code=200)
