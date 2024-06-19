@@ -29,16 +29,8 @@ with open("README.md", "r") as readme_file:
     long_description = readme_file.read()
 
 setuptools.setup(
-    name="athena",
-    version="2.0.0",
-    author="Teialabs",
-    author_email="contato@teialabs.com",
-    description="Teia Athena bot API.",
-    long_description=long_description,
-    long_description_content_type="text/markdown",
-    url="https://github.com/TeiaLabs/athena",
-    packages=setuptools.find_packages(),
-    keywords="athena, chatbot, api, gpt3",
+    name="cadastramento",
+    author="Kristen, Ramiro e Vinicius",
     python_requires=">=3.12",
     install_requires=requirements,
     extras_require=opt_requirements,

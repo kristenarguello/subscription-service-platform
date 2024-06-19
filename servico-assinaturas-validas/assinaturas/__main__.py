@@ -1,24 +1,24 @@
-import pathlib
-import sys
-
+import threading
 import uvicorn
-from pydantic.error_wrappers import ValidationError
+from .event_consumers.pgto_assinatura_valida import event_consumer_init
 
-# from .settings import Settings
+
+def start_event_consumer():
+    consumer_thread = threading.Thread(target=event_consumer_init)
+    consumer_thread.daemon = True
+    consumer_thread.start()
 
 
 def main():
-    # sets = Settings()
+    start_event_consumer()
 
-    # uvicorn.run( need to change to ours
-    #     "athena:create_app",
-    #     factory=True,
-    #     reload=True,
-    #     host=sets.ATHENA_HOST,
-    #     port=sets.ATHENA_PORT,
-    #     workers=sets.ATHENA_WORKERS,
-    # )
-    pass
+    uvicorn.run(
+        "assinaturas:create_app",
+        factory=True,
+        reload=True,
+        port=8003,
+        workers=1,
+    )
 
 
 if __name__ == "__main__":

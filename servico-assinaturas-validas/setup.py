@@ -26,16 +26,8 @@ requirements = read_multiline_as_list("requirements.txt")
 opt_requirements = get_optional_requirements()
 
 setuptools.setup(
-    name="assinaturas",
-    version="0.0.1",
-    author="Us",
-    author_email="contato@.com",
-    description="API.",
-    long_description="",
-    long_description_content_type="text/markdown",
-    url="https://github.com/",
-    packages=setuptools.find_packages(),
-    keywords="",
+    name="assinaturas-validas",
+    author="Kristen, Ramiro e Vinicius",
     python_requires=">=3.12",
     install_requires=requirements,
     extras_require=opt_requirements,
