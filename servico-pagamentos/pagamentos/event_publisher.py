@@ -22,6 +22,7 @@ def publish_event(event_type: str, data: dict):
         body = PagamentoServicoCadastramento(
             dia=19, mes=6, ano=2024, codass=1, valorPago=5.4
         )
+    # TODO: if to send the event on the right time
     elif event_type == "assinatura_valida":
         queue_name = "pgto_servico_assinatura_valida_queue"
         body = PagamentoServicoAssinaturaValida(

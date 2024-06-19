@@ -1,11 +1,31 @@
-import pika
 import json
+from datetime import timedelta
+
+import pika
+import pymongo
+from loguru import logger
 
 
 def callback_pagamentoservicocadastramento(ch, method, properties, body):
     event_data = json.loads(body)
-    print("CADASTRAMENTO", event_data)
-    print("aaaa")
+    cod_assinatura = event_data["codass"]
+    client = pymongo.MongoClient("localhost", 27017)
+    db = client["cadastro_geral"]
+    collection = db["assinaturas"]
+
+    assinatura = collection.find_one({"codigo": cod_assinatura})
+    if assinatura:
+        current_datetime = assinatura["fim_vigencia"]
+        new_datetime = current_datetime + timedelta(days=30)
+
+        collection.update_one(
+            {"codigo": cod_assinatura}, {"$set": {"yourDateField": new_datetime}}
+        )
+        logger.debug(
+            f"Event handler: Document with codigo {cod_assinatura} has been updated."
+        )
+    else:
+        logger.debug(f"Event handler: No document found with codigo {cod_assinatura}.")
 
 
 def event_consumer_init():
