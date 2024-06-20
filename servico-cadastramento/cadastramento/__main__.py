@@ -16,7 +16,6 @@ def main():
         "cadastramento:create_app",
         factory=True,
         reload=True,
-        # host=sets.ATHENA_HOST,
         port=8000,
         workers=1,
     )

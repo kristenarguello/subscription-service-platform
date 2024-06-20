@@ -7,32 +7,22 @@ from .registrar.events import (
     PagamentoServicoAssinaturaValida,
     PagamentoServicoCadastramento,
 )
+from .registrar.schemas import RegistrarPagamento
 
 connection = pika.BlockingConnection(pika.ConnectionParameters("localhost"))
 channel = connection.channel()
 
-channel.queue_declare(queue="pgto_cadastramento_queue")
-channel.queue_declare(queue="pgto_servico_assinatura_valida_queue")
+exchange_name = "payments_events"
+channel.exchange_declare(exchange=exchange_name, exchange_type="direct")
 
 
-def publish_event(event_type: str, data: dict):
-    # TODO: change values
-    if event_type == "cadastro":
-        queue_name = "pgto_cadastramento_queue"
-        body = PagamentoServicoCadastramento(
-            dia=19, mes=6, ano=2024, codass=1, valorPago=5.4
-        )
-    # TODO: if to send the event on the right time
-    elif event_type == "assinatura_valida":
-        queue_name = "pgto_servico_assinatura_valida_queue"
-        body = PagamentoServicoAssinaturaValida(
-            dia=19, mes=6, ano=2024, codass=2, valorPago=9.3
-        )
-    else:
-        return "Invalid event type"
+def publish_event(body: RegistrarPagamento):
     logger.debug(f"Event: {body.model_dump()}")
-
-    channel.basic_publish(
-        exchange="", routing_key=queue_name, body=json.dumps(body.model_dump())
-    )
-    logger.debug(f"Event published to {queue_name}")
+    routing_keys = ["pgto_cadastramento", "pgto_servico_assinatura_valida"]
+    for routing_key in routing_keys:
+        channel.basic_publish(
+            exchange=exchange_name,
+            routing_key=routing_key,
+            body=json.dumps(body.model_dump()),
+        )
+        logger.debug(f"Event published to {routing_key}")

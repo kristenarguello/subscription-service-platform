@@ -1,18 +1,26 @@
 import pika
 import json
+from ..cache import remove_from_cache
+from loguru import logger
 
 
 def callback_pgtoassinaturavalida(ch, method, properties, body):
     event_data = json.loads(body)
-    # print("Received Event 1:", event_data)
-    print("ASSINATURA VALIDA", event_data)
-    print("aaaa")
+    cod_assinatura = event_data["codass"]
+    remove_from_cache(cod_assinatura)
+    logger.debug(f"Event handler: {cod_assinatura} removed from cache.")
 
 
 def event_consumer_init():
     connection = pika.BlockingConnection(pika.ConnectionParameters("localhost"))
     channel = connection.channel()
     channel.queue_declare(queue="pgto_servico_assinatura_valida_queue")
+
+    channel.queue_bind(
+        exchange="payments_events",
+        queue="pgto_servico_assinatura_valida_queue",
+        routing_key="pgto_servico_assinatura_valida",
+    )
 
     channel.basic_consume(
         queue="pgto_servico_assinatura_valida_queue",

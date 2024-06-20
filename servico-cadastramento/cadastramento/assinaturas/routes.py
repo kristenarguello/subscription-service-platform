@@ -2,7 +2,7 @@ from typing import Literal
 from fastapi import APIRouter
 
 from . import controllers as controller
-from .schemas import Assinatura, CreateAssinatura
+from .schemas import Assinatura, CreateAssinatura, GetAssinaturas
 
 router = APIRouter(prefix="/assinaturas", tags=["assinaturas"])
 
@@ -15,5 +15,7 @@ def create_assinatura(body: CreateAssinatura) -> Assinatura:
 
 @router.get("/assinaturas/{tipo}", status_code=200)
 @router.get("/assinaturas/{tipo}/", status_code=200, include_in_schema=False)
-def get_assinaturas(tipo: Literal["TODAS", "ATIVAS", "CANCELADAS"]):
+def get_assinaturas(
+    tipo: Literal["TODAS", "ATIVAS", "CANCELADAS"]
+) -> list[GetAssinaturas]:
     return controller.get_assinaturas(tipo)
