@@ -4,7 +4,7 @@ from ..assinaturas.schemas import GetAssinaturas
 from .schemas import UpdateApp
 
 
-router = APIRouter(prefix="/aplicativos", tags=["aplicativos"])
+router = APIRouter(tags=["aplicativos"])
 
 
 @router.get("/aplicativos", status_code=200)

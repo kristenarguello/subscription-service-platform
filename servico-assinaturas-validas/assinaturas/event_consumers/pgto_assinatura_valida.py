@@ -1,14 +1,5 @@
 import pika
-import json
-from ..cache import remove_from_cache
-from loguru import logger
-
-
-def callback_pgtoassinaturavalida(ch, method, properties, body):
-    event_data = json.loads(body)
-    cod_assinatura = event_data["codass"]
-    remove_from_cache(cod_assinatura)
-    logger.debug(f"Event handler: {cod_assinatura} removed from cache.")
+from ..validacao.controllers import callback_pgtoassinaturavalida
 
 
 def event_consumer_init():

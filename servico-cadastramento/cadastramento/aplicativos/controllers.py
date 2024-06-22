@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 import pymongo
 from .schemas import GetAplicativos, UpdateApp
 from ..assinaturas.schemas import GetAssinaturas
@@ -16,9 +17,11 @@ def update_aplicativo(aplicativo_id: int, body: UpdateApp) -> GetAplicativos:
     client = pymongo.MongoClient("localhost", 27017)
     db = client["cadastro_geral"]
     collection = db["aplicativos"]
-    collection.update_one(
+    update = collection.update_one(
         {"codigo": aplicativo_id}, {"$set": {"custo_mensal": body.custo}}
     )
+    if update.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Aplicativo não encontrado")
 
     aplicativo = collection.find({"codigo": aplicativo_id}, projection={"_id": 0})
     aplicativo = list(aplicativo)[0]

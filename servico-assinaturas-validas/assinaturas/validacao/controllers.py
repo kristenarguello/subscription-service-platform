@@ -1,22 +1,38 @@
 from datetime import datetime
+import json
 from fastapi import HTTPException
 import requests
-from ..cache import get_from_cache
+from ..cache import Cache
+from loguru import logger
+
+cache = Cache()
+
+
+def callback_pgtoassinaturavalida(ch, method, properties, body):
+    event_data = json.loads(body)
+    cod_assinatura = event_data["codass"]
+    cache.remove_from_cache(cod_assinatura)
+    logger.debug(f"Event handler: {cod_assinatura} removed from cache.")
 
 
 def validar_assinatura(codass: int) -> bool:
-    cached_info = get_from_cache(codass)
+    cached_info = cache.get_from_cache(codass)
+    logger.debug(f"CACHE: {cached_info}")
     if cached_info:
-        if cached_info["fim_vigencia"] >= datetime.now():
+        if (
+            datetime.strptime(cached_info["data_fim"], "%Y-%m-%dT%H:%M:%S.%f")
+            >= datetime.now()
+        ):
             return True
+        cache.remove_from_cache(codass)
         return False
 
-    response = requests.get(f"http://localhost:8000/assinaturas")
+    response = requests.get(f"http://localhost:8000/assinaturas/ATIVAS")
     assinaturas = response.json()
+    logger.debug(f"Assinaturas: {assinaturas}")
     for assinatura in assinaturas:
         if assinatura["cod_assinatura"] == codass:
-            if assinatura["data_fim"] >= datetime.now():
-                return True
-            return False
+            cache.add_to_cache(codass, assinatura)
+            return True
 
     raise HTTPException(status_code=404, detail="Assinatura não encontrada")

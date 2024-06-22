@@ -4,7 +4,7 @@ from fastapi import APIRouter
 from . import controllers as controller
 from .schemas import Assinatura, CreateAssinatura, GetAssinaturas
 
-router = APIRouter(prefix="/assinaturas", tags=["assinaturas"])
+router = APIRouter(tags=["assinaturas"])
 
 
 @router.post("/assinaturas", status_code=201)

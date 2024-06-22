@@ -3,7 +3,7 @@ from .schemas import GetClientes
 from . import controllers as controller
 from ..assinaturas.schemas import GetAssinaturas
 
-router = APIRouter(prefix="/clientes", tags=["clientes"])
+router = APIRouter(tags=["clientes"])
 
 
 @router.get("/clientes", status_code=200)

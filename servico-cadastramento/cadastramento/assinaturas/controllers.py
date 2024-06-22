@@ -28,15 +28,15 @@ def create_assinatura(body: CreateAssinatura) -> Assinatura:
     db = client["cadastro_geral"]
 
     collection_clientes = db["clientes"]
-    cliente = collection_clientes.find({"codigo": body.codigo_cliente})
-    if len(list(cliente)) == 0:
+    cliente = collection_clientes.find_one({"codigo": body.codigo_cliente})
+    if not cliente:
         raise HTTPException(
             status_code=404, detail="Cliente não encontrado para criar assinatura"
         )
 
     collection_aplicativos = db["aplicativos"]
-    aplicativo = collection_aplicativos.find({"codigo": body.codigo_aplicativo})
-    if len(list(aplicativo)) == 0:
+    aplicativo = collection_aplicativos.find_one({"codigo": body.codigo_aplicativo})
+    if not aplicativo:
         raise HTTPException(
             status_code=404, detail="Aplicativo não encontrado para criar assinatura"
         )
