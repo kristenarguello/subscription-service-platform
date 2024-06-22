@@ -1,9 +1,11 @@
-from datetime import datetime
 import json
-from fastapi import HTTPException
+from datetime import datetime
+
 import requests
-from ..cache import Cache
+from fastapi import HTTPException
 from loguru import logger
+
+from ..cache import Cache
 
 cache = Cache()
 

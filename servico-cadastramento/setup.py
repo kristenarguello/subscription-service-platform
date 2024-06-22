@@ -25,8 +25,8 @@ def get_optional_requirements() -> dict[str, list[str]]:
 requirements = read_multiline_as_list("requirements.txt")
 opt_requirements = get_optional_requirements()
 
-with open("README.md", "r") as readme_file:
-    long_description = readme_file.read()
+# with open("README.md", "r") as readme_file:
+#     long_description = readme_file.read()
 
 setuptools.setup(
     name="cadastramento",

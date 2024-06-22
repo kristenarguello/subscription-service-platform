@@ -1,12 +1,32 @@
+import asyncio
 import json
 from datetime import datetime, timedelta
 
-import pika
 import pymongo
+from aio_pika import ExchangeType, IncomingMessage, connect
 from loguru import logger
 
 
-def callback_pagamentoservicocadastramento(ch, method, properties, body):
+async def event_consumer_init():
+    logger.debug("Connecting to RabbitMQ")
+    connection = await connect("amqp://guest:guest@localhost/")
+    channel = await connection.channel()
+    exchange = await channel.declare_exchange("payments_events", ExchangeType.DIRECT)
+    queue = await channel.declare_queue("pgto_cadastramento_queue")
+    await queue.bind(exchange, routing_key="pgto_cadastramento")
+
+    async def on_message(message: IncomingMessage):
+        async with message.process():
+            body = message.body
+            # Convert the body to the expected format and call the callback function
+            await callback_pagamentoservicocadastramento(body)
+
+    # Start consuming messages as a background task
+    await queue.consume(on_message)  # type: ignore
+
+
+async def callback_pagamentoservicocadastramento(body):
+    logger.debug("Processing message")
     event_data = json.loads(body)
     cod_assinatura = event_data["codass"]
     client = pymongo.MongoClient("localhost", 27017)
@@ -34,22 +54,3 @@ def callback_pagamentoservicocadastramento(ch, method, properties, body):
         )
     else:
         logger.debug(f"Event handler: No document found with codigo {cod_assinatura}.")
-
-
-def event_consumer_init():
-    connection = pika.BlockingConnection(pika.ConnectionParameters("localhost"))
-    channel = connection.channel()
-    channel.queue_declare(queue="pgto_cadastramento_queue")
-
-    channel.queue_bind(
-        exchange="payments_events",
-        queue="pgto_cadastramento_queue",
-        routing_key="pgto_cadastramento",
-    )
-
-    channel.basic_consume(
-        queue="pgto_cadastramento_queue",
-        on_message_callback=callback_pagamentoservicocadastramento,
-        auto_ack=True,
-    )
-    channel.start_consuming()
