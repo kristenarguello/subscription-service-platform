@@ -1,6 +1,6 @@
-pika
 fastapi
 pydantic
 uvicorn
 loguru
 requests
+aio-pika

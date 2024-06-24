@@ -1,4 +1,4 @@
-pika
+aio-pika
 fastapi
 pydantic
 uvicorn
