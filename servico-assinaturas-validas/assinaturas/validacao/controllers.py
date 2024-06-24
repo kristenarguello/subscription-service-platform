@@ -8,6 +8,7 @@ from loguru import logger
 from ..cache import Cache
 
 cache = Cache()
+from ..settings import Settings
 
 
 def callback_pgtoassinaturavalida(ch, method, properties, body):
@@ -29,7 +30,7 @@ def validar_assinatura(codass: int) -> bool:
         cache.remove_from_cache(codass)
         return False
 
-    response = requests.get(f"http://localhost:8000/assinaturas/ATIVAS")
+    response = requests.get(Settings.ASSINATURAS_URL)
     assinaturas = response.json()
     logger.debug(f"Assinaturas: {assinaturas}")
     for assinatura in assinaturas:

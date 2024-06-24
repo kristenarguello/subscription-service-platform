@@ -3,13 +3,14 @@ import asyncio
 from aio_pika import ExchangeType, IncomingMessage, connect
 from loguru import logger
 
+from ..settings import Settings
 from ..validacao.controllers import callback_pgtoassinaturavalida
 
 
 async def event_consumer_init():
     # Establish a connection to RabbitMQ
     logger.debug("Connecting to RabbitMQ")
-    connection = await connect("amqp://guest:guest@localhost/")
+    connection = await connect(Settings.RABBITMQ)
     channel = await connection.channel()
 
     # Declare the exchange if it doesn't exist

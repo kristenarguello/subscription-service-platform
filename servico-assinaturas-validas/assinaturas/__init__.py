@@ -4,10 +4,12 @@ from fastapi import FastAPI
 
 from .event_consumers.async_pgto import event_consumer_init
 from .health.health import router as health_router
+from .settings import Settings
 from .validacao.routes import router as assinaturas_router
 
 
 def create_app() -> FastAPI:
+    sets = Settings()
     app = FastAPI(
         title="AssinaturasValidas",
     )
