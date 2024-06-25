@@ -4,9 +4,13 @@ from .schemas import GetAplicativos, UpdateApp
 from ..assinaturas.schemas import GetAssinaturas
 from ..assinaturas.controllers import parse_assinaturas_from_db
 
+from ..settings import Settings
+
+settings = Settings()
+
 
 def get_aplicativos() -> list[GetAplicativos]:
-    client = pymongo.MongoClient("localhost", 27017)
+    client = pymongo.MongoClient(settings.MONGO_DB_URI)
     db = client["cadastro_geral"]
     collection = db["aplicativos"]
     aplicativos_cursor = collection.find(projection={"_id": 0})
@@ -14,7 +18,7 @@ def get_aplicativos() -> list[GetAplicativos]:
 
 
 def update_aplicativo(aplicativo_id: int, body: UpdateApp) -> GetAplicativos:
-    client = pymongo.MongoClient("localhost", 27017)
+    client = pymongo.MongoClient(settings.MONGO_DB_URI)
     db = client["cadastro_geral"]
     collection = db["aplicativos"]
     update = collection.update_one(
@@ -33,7 +37,7 @@ def update_aplicativo(aplicativo_id: int, body: UpdateApp) -> GetAplicativos:
 
 
 def get_assinaturas(cod_aplicativo: int) -> list[GetAssinaturas]:
-    client = pymongo.MongoClient("localhost", 27017)
+    client = pymongo.MongoClient(settings.MONGO_DB_URI)
     db = client["cadastro_geral"]
     collection = db["assinaturas"]
     assinaturas_cursor = collection.find(

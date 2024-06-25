@@ -6,10 +6,14 @@ import pymongo
 from aio_pika import ExchangeType, IncomingMessage, connect
 from loguru import logger
 
+from ..settings import Settings
+
+settings = Settings()
+
 
 async def event_consumer_init():
     logger.debug("Connecting to RabbitMQ")
-    connection = await connect("amqp://guest:guest@localhost/")
+    connection = await connect(settings.RABBITMQ)
     channel = await connection.channel()
     exchange = await channel.declare_exchange("payments_events", ExchangeType.DIRECT)
     queue = await channel.declare_queue("pgto_cadastramento_queue")
@@ -29,7 +33,7 @@ async def callback_pagamentoservicocadastramento(body):
     logger.debug("Processing message")
     event_data = json.loads(body)
     cod_assinatura = event_data["codass"]
-    client = pymongo.MongoClient("localhost", 27017)
+    client = pymongo.MongoClient(settings.MONGO_DB_URI)
     db = client["cadastro_geral"]
     collection = db["assinaturas"]
 

@@ -4,3 +4,4 @@ uvicorn
 loguru
 requests
 aio-pika
+pydantic_settings

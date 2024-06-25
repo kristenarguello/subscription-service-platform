@@ -7,6 +7,10 @@ from fastapi import HTTPException
 from ..async_event import publish_event
 from .schemas import RegistrarPagamento
 
+from ..settings import Settings
+
+settings = Settings()
+
 
 async def registrar_pagamento(body: RegistrarPagamento):
     if body.valorPago < 0:
@@ -14,7 +18,7 @@ async def registrar_pagamento(body: RegistrarPagamento):
             status_code=400, detail="O valor do pagamento não pode ser negativo"
         )
 
-    client = pymongo.MongoClient("localhost", 27017)
+    client = pymongo.MongoClient(settings.MONGO_DB_URI)
     db = client["cadastro_geral"]
     collection = db["assinaturas"]
     assinatura = collection.find_one({"codigo": body.codass})

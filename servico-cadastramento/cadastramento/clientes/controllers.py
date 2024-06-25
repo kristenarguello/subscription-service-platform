@@ -5,9 +5,14 @@ from .schemas import GetClientes
 from ..assinaturas.schemas import GetAssinaturas
 from ..assinaturas.controllers import parse_assinaturas_from_db
 
+from ..settings import Settings
+
+settings = Settings()
+
 
 def get_clientes() -> list[GetClientes]:
-    client = pymongo.MongoClient("localhost", 27017)
+    print(settings.MONGO_DB_URI)
+    client = pymongo.MongoClient(settings.MONGO_DB_URI)
     db = client["cadastro_geral"]
     collection = db["clientes"]
 
@@ -17,7 +22,7 @@ def get_clientes() -> list[GetClientes]:
 
 
 def get_assinaturas_cliente(codigo_cli: int) -> list[GetAssinaturas]:
-    client = pymongo.MongoClient("localhost", 27017)
+    client = pymongo.MongoClient(settings.MONGO_DB_URI)
     db = client["cadastro_geral"]
     collection = db["assinaturas"]
 

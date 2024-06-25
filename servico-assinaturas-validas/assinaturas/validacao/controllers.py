@@ -10,6 +10,8 @@ from ..cache import Cache
 cache = Cache()
 from ..settings import Settings
 
+settings = Settings()
+
 
 def callback_pgtoassinaturavalida(ch, method, properties, body):
     event_data = json.loads(body)
@@ -30,7 +32,7 @@ def validar_assinatura(codass: int) -> bool:
         cache.remove_from_cache(codass)
         return False
 
-    response = requests.get(Settings.ASSINATURAS_URL)
+    response = requests.get(settings.ASSINATURAS_URL)
     assinaturas = response.json()
     logger.debug(f"Assinaturas: {assinaturas}")
     for assinatura in assinaturas:

@@ -4,6 +4,10 @@ from datetime import datetime, timedelta
 from typing import Literal
 from .schemas import Assinatura, CreateAssinatura, GetAssinaturas
 
+from ..settings import Settings
+
+settings = Settings()
+
 
 def get_assinaturas(
     tipo: Literal["TODAS", "ATIVAS", "CANCELADAS"]
@@ -15,7 +19,7 @@ def get_assinaturas(
     elif tipo == "CANCELADAS":
         filters["fim_vigencia"] = {"$lt": datetime.now()}
 
-    client = pymongo.MongoClient("localhost", 27017)
+    client = pymongo.MongoClient(settings.MONGO_DB_URI)
     db = client["cadastro_geral"]
     collection = db["assinaturas"]
     assinaturas_cursor = collection.find(filter=filters, projection={"_id": 0})
@@ -24,7 +28,7 @@ def get_assinaturas(
 
 
 def create_assinatura(body: CreateAssinatura) -> Assinatura:
-    client = pymongo.MongoClient("localhost", 27017)
+    client = pymongo.MongoClient(settings.MONGO_DB_URI)
     db = client["cadastro_geral"]
 
     collection_clientes = db["clientes"]

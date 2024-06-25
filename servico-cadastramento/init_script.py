@@ -1,9 +1,22 @@
+import os
 import random
 from datetime import datetime, timedelta
+from dotenv import load_dotenv
 
 import pymongo
 
-client = pymongo.MongoClient("localhost", 27017)
+load_dotenv()
+
+
+uri = os.getenv("MONGO_DB_URI")
+client = pymongo.MongoClient(uri)
+
+try:
+    client.admin.command("ping")
+    print("Pinged your deployment. You successfully connected to MongoDB!")
+except Exception as e:
+    print(e)
+    raise e
 
 db = client["cadastro_geral"]
 
