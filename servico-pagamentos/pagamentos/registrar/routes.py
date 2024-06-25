@@ -9,8 +9,8 @@ from .schemas import RegistrarPagamento
 router = APIRouter(prefix="/registrarpagamento", tags=["registrarpagamento"])
 
 
-@router.post("", status_code=200)
-@router.post("/", status_code=200, include_in_schema=False)
+@router.post("", status_code=204)
+@router.post("/", status_code=204, include_in_schema=False)
 async def registrar_pagamento(body: RegistrarPagamento):
     try:
         # Make sure to await the asynchronous function
