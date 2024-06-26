@@ -4,11 +4,14 @@ from aio_pika import ExchangeType, Message, connect
 from loguru import logger
 
 from .registrar.schemas import RegistrarPagamento
+from .settings import Settings
+
+settings = Settings()
 
 
 async def publish_event(body: RegistrarPagamento):
     # Establish a connection to RabbitMQ
-    connection = await connect("amqp://guest:guest@localhost/")
+    connection = await connect(settings.RABBITMQ)
     channel = await connection.channel()
 
     # Declare the exchange if it doesn't exist

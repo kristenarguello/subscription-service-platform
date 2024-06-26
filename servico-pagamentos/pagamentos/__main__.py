@@ -6,11 +6,8 @@ def main():
 
     uvicorn.run(
         "pagamentos:create_app",
-        factory=True,
-        reload=True,
-        # host=sets.ATHENA_HOST,
-        port=8001,
-        workers=1,
+        host="0.0.0.0",
+        port=80,
     )
 
 

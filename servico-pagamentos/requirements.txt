@@ -5,3 +5,4 @@ loguru
 requests
 aio-pika
 pydantic_settings
+pymongo

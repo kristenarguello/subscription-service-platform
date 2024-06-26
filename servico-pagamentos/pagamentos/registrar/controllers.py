@@ -8,11 +8,14 @@ from ..async_event import publish_event
 from .schemas import RegistrarPagamento
 
 from ..settings import Settings
+from loguru import logger
 
 settings = Settings()
 
 
 async def registrar_pagamento(body: RegistrarPagamento):
+    logger.debug(settings.MONGO_DB_URI)
+    logger.debug(settings.RABBITMQ)
     if body.valorPago < 0:
         raise HTTPException(
             status_code=400, detail="O valor do pagamento não pode ser negativo"

@@ -4,3 +4,4 @@ pydantic
 uvicorn
 loguru
 pydantic_settings
+pymongo
