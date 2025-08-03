@@ -42,10 +42,10 @@ The system is composed of three decoupled services:
 ---
 
 ## Tech Stack
-•	Language: Python
-•	Architecture: Microservices
-•	Persistence: (e.g., SQLite/PostgreSQL – depending on your implementation)
-•	Deployment: (e.g., Docker + Cloud provider)
+-	Language: Python
+-	Architecture: Microservices
+-	Persistence: (e.g., SQLite/PostgreSQL – depending on your implementation)
+-	Deployment: (e.g., Docker + Azure)
 
 ---
 
